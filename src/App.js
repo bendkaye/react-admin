@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import { Admin, Resource } from "react-admin";
+import { TaskList } from "./views/tasks";
+import Dashboard from "./views/dashboard";
+import UserIcon from "@material-ui/icons/Group";
+import authProvider from "./authProvider";
+import jsonapiClient from "ra-jsonapi-client";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const settings = { total: "total-count" };
+
+const dataProvider = jsonapiClient(
+  "https://a7d6-141-226-11-244.ngrok.io", // this is not currently active
+  settings
+);
+const App = () => (
+  <Admin
+    dashboard={Dashboard}
+    authProvider={authProvider}
+    dataProvider={dataProvider}
+  >
+    <Resource name="task" list={TaskList} icon={UserIcon} />
+  </Admin>
+);
 
 export default App;
